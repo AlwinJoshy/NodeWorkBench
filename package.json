@@ -1,0 +1,14 @@
+{
+  "name": "prototypesystem",
+  "version": "1.0.0",
+  "description": "workbench server",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "author": "Alwin Joshy",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
