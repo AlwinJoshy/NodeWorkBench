@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "teak-territory-340316",
+  "private_key_id": "7c71b8b6f3f9c5a61a03684c798b6e9980fdc006",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCY/Shsiu97/fdT\nigsUOcHAMMbo7PsdpyEELpNZuNqRZX6b2P9xsJ9MDU/ouSYDTghxFHshL8BAGY9j\nF6Z0ziLR+R9VY0G30JM+dP4CYM9o8XNIVBEM3bpMokfZXhPu8HuC6a4zwdcS3uCc\n5y5bUpYxtv6FkkACJD98qkClLi3BviLVG36RDgPbw/Evk9glIDMN7UGY+G529o1u\nq6+5XmtWDr6PjsQQV6QByU9yjOyqDrm9R11m26TKvhMUKNbzaWGA1cAGUZfiYGpz\n/R5vHGqvI8Ca4NuWcNrqu1bZLgHyK0GEJt1SquxFRYl8RZY46d1BL//zP0rWC3NX\nwH0jnKXlAgMBAAECggEAHS4MC8fkLa4fAlwOCOmLPvEOv1aT/u/lqDqJ+E79wUWu\nhGM7NaAOgh734teNnIvBqG/TnFzTOmalpqzYHudCVPJDO7IW0syBiSQfXqzAYq/K\n4TzHk8Cmy/8X3SnIe4Z6yFlx1IVgVEUWalbdzKVP6GOS4D8o3j+zrD983QSVzaH+\n1SnMhhl7xtWS5T9zYIfNUohBCxHkBYeHscViXw1DvmIhCpSADjLfkKPe6BDf2S5Z\nDBFmhjbUVFZ3hhi9LfUqfOgytJ+tjg53wS1JDn+bR9Va8t/k+dJSD+v/WomrFtrn\nBAzYjK8pY0p0kbt2vUvgvXWzCv6ElXyljusCHV5pcQKBgQDLaXnhaUBndgrWCtOq\n02qRNMav5BXp3IrDLG6vedbcKuqanASm6avYUY8L3udvKv7pfwRW5rG9oHSm3zbF\nflrjpUEVLVG3t4q2R2AAa39aTULWwnS3lLSGfPJv9tJMW1mGfS7QAAZbJWF7l/45\ngyBzaA3m/erHpDHEd5hEbbqIlwKBgQDAioCQyaLPbVBgeNWglLyjr0HbcswXK4Kz\n3jEeoa1ZWrLGYlh/kEmziC4mKzPza0Yppn7wD/zLfkeKlmzMltduqPsoQBaF2yBL\nu8nhubVGn/X96T1eDYvq3rXUUYC0L48sWBKU83UsuOus+fykNfAeszx3JvER+y86\nJgX1M1+44wKBgEsO/blutCQ5S6BV2GtFniI8vkAzQt7L0axZXfKEXANcFru8bH8G\n5LFqzwULWI0N6YhRpVFHyTh21/Snkzdm+7Taytw8n9XR9W5zgfpFsHWq4soKcTU4\nuzCRNIiaJFmmr69PzBFWoQHLFmCb4mRofXX4ZIDjG1pVvUOI+ffuIZG7AoGALjmS\nQDCIi/AcmeyorRLIbyvGTd8zrGRfzrsLY+VA7vDdds9pm8aSSy3olnVM1aXthFZa\np1vPPzOkDVur5zpXolOjaLhqL9y51jTRdQXWxYvlzP3QI+JwswSg9sZSde/tGaJT\nY7tHaGNFAZRK2Umxyk0RuTF6MuzxG67BQ2sAEi0CgYBy1YFVnrmbGboa253RJyjw\naXw9G61zCbcFRDeE6Ifqv2PssCbKcb+8wGgXTpuOjuYPClxASIjncD6BbvelevHq\nkuUDbBEa5EdyP4Bs3XDpd6Ojt3LEp8Ap6nSEm8jo4CUp3QOq+mG7chmySlBQdXYD\nkNxFOkT7O/Ya6y1XzU5Urg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "multiplay@teak-territory-340316.iam.gserviceaccount.com",
+  "client_id": "102385845585705227377",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/multiplay%40teak-territory-340316.iam.gserviceaccount.com"
+}
