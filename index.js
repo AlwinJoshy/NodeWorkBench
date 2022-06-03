@@ -1,95 +1,168 @@
-// Imports the Google Cloud client library
-const {Storage} = require('@google-cloud/storage');
-
-// Creates a client
-const storage = new Storage({
-    projectId: "teak-territory-340316",
-    keyFilename:"./Assets/teak-territory-340316-7c71b8b6f3f9.json"
-});
+const fs = require('fs');
 
 
-// Makes an authenticated API request.
-async function listBuckets() {
-  try {
-    const results = await storage.getBuckets();
+console.log("Started...");
 
-    const [buckets] = results;
 
-    console.log('Buckets:');
-    buckets.forEach(bucket => {
-      console.log(bucket.name);
-    });
-  } catch (err) {
-    console.error('ERROR:', err);
+let jsonFilePath = "./Assets/jsonFile/highstreet-market-default-rtdb-export.json"
+let jsonData = null;
+let homeObjectKeys = null;
+let newFile = {};
+
+
+const AddNftInstance = (customData, relations) => {
+  let nftInstance =
+  {
+    instances:
+      [
+        {
+          customData: customData,
+          relations: relations,
+        }
+      ]
   }
+  return nftInstance;
 }
 
-listBuckets().then(() =>{
+const NFTList = (userObject) => {
+  for (let index = 0; index < userObject.homes.length; index++) {
+    let oldHome = jsonData.homes[userObject.homes[index]];
 
-    // create cors access
-    
-    
-    configureBucketCors().catch(console.error);
+    let nftListOfHome = oldHome.nftitem;
+
+    if (nftListOfHome == null) break;
+
+    for (let n = 0; n < nftListOfHome.length; n++) {
+      // constructing nft
+      let oldNFTData = nftListOfHome[n];
+      if (oldNFTData == null) continue;
+
+      let firstTwoChar;
+
+      try {
+        firstTwoChar = oldNFTData.id.substring(0, 2);// 0x
+      } catch (error) {
+        console.log(nftListOfHome);
+        throw error;
+      }
 
 
-    //getBucketMetadata().catch(console.error);
-});
 
-//#region Check All the CORS
+      if (firstTwoChar == "0x") {
 
-async function getBucketMetadata() {
-    /**
-     * TODO(developer): Uncomment the following lines before running the sample.
-     */
-    // The ID of your GCS bucket
-    // const bucketName = 'your-unique-bucket-name';
-  
-    // Get Bucket Metadata
-    const [metadata] = await storage.bucket(bucketName).getMetadata();
-  
-    for (const [key, value] of Object.entries(metadata)) {
-      console.log(`${key}: ${JSON.stringify(value)}`);
+        let newNFTObject = AddNftInstance(
+          {
+            position: oldNFTData.position,
+            rotation: oldNFTData.rotation
+          },
+          {
+            parent: `${userObject.homes[index]}@0`
+          }
+        )
+
+        // add child nft
+        userObject.nfts[oldNFTData.id] = newNFTObject;
+
+        // add child to home
+        userObject.nfts[userObject.homes[index]].instances[0].relations.children.push(`${oldNFTData.id}@0`);
+      }
     }
   }
 
-//#endregion
+  //userObject.nfts = nftObject;
 
+  delete userObject.homes;
 
-//#region Create CORS access
-/**
- * TODO(developer): Uncomment the following lines before running the sample.
- */
-// The ID of your GCS bucket
- const bucketName = 'highstreet_server_test';
-
-// The origin for this CORS config to allow requests from
-const origin = 'https://v6p9d9t4.ssl.hwcdn.net';
-
-// The response header to share across origins
-const responseHeader = 'application/x-www-form-urlencoded';
-
-// The maximum amount of time the browser can make requests before it must
-// repeat preflighted requests
-const maxAgeSeconds = 3600;
-
-// The name of the method
-// See the HttpMethod documentation for other HTTP methods available:
-// https://cloud.google.com/appengine/docs/standard/java/javadoc/com/google/appengine/api/urlfetch/HTTPMethod
-const method = 'GET';
-
-async function configureBucketCors() {
-  await storage.bucket(bucketName).setCorsConfiguration([
-    {
-      maxAgeSeconds,
-      method: [method],
-      origin: [origin],
-      responseHeader: [responseHeader],
-    },
-  ]);
-
-  console.log(`Bucket ${bucketName} was updated with a CORS config
-      to allow ${method} requests from ${origin} sharing 
-      ${responseHeader} responses across origins`);
 }
 
-//#endregion
+const HomeNFTList = (walletID, userObject) => {
+
+  if (homeObjectKeys == null) homeObjectKeys = Object.keys(jsonData.homes);
+  let nftObject = {}
+  let homeList = [];
+
+  for (let index = 0; index < homeObjectKeys.length; index++) {
+    let homeData = jsonData.homes[homeObjectKeys[index]];
+
+    if (homeData.ownerWallet.toLowerCase() == walletID.toLowerCase()) {
+
+      let nftHomeInstance = AddNftInstance(
+        {
+          furniture: homeData.furniture,
+          password: homeData.password
+        },
+        {
+          children: []
+        });
+
+      nftObject[homeObjectKeys[index]] = nftHomeInstance
+
+      homeList.push(homeObjectKeys[index]);
+    }
+  }
+
+  userObject["homes"] = homeList;
+  userObject.nfts = nftObject;
+}
+
+
+const Initialize = (userData) => {
+  let userProfile =
+  {
+    nfts: {},
+    profile: {
+      avatarID: userData.userAvatarID,
+      userID: userData.userId,
+      username: userData.username
+    }
+  };
+  return userProfile;
+}
+
+const Parser = () => {
+
+  jsonData = ReadJSONData(jsonFilePath);
+
+  newFile.users = {};
+  // go through all the users
+
+  let userKeys = Object.keys(jsonData.users);
+
+  for (let index = 0; index < userKeys.length; index++) {
+
+    let userData = jsonData.users[userKeys[index]];
+
+    let userProfile = Initialize(userData);
+    newFile.users[userKeys[index]] = userProfile;
+  }
+
+  let userKeyList = Object.keys(newFile.users);
+
+  // adding homes
+  for (let index = 0; index < userKeyList.length; index++) {
+    let key = userKeyList[index];
+    HomeNFTList(key, newFile.users[key]);
+  }
+
+  // adding nfts
+  for (let index = 0; index < userKeyList.length; index++) {
+    let key = userKeyList[index];
+    NFTList(newFile.users[key]);
+  }
+
+  WriteJSONData(newFile, "C:/Users/flame/OneDrive/Desktop/New folder/output.json");
+
+}
+
+
+const ReadJSONData = (filePath) => {
+  let rawdata = fs.readFileSync(filePath);
+  return JSON.parse(rawdata);
+}
+
+const WriteJSONData = (jsonData, filePath) => {
+  let data = JSON.stringify(jsonData);
+  fs.writeFileSync(filePath, data);
+}
+
+Parser();
